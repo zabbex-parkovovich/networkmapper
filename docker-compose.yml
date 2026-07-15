@@ -1,0 +1,58 @@
+services:
+  postgres:
+    build: ./database
+    container_name: network_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TZ}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - network_monitoring
+    restart: unless-stopped
+
+  app:
+    build: ./app
+    container_name: network_app
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      TZ: ${TZ}
+    volumes:
+      - ./app:/app
+    networks:
+      - network_monitoring
+    stdin_open: true
+    tty: true
+    command: tail -f /dev/null
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: network_nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - nodered_data:/data
+    environment:
+      - TZ=${TZ}
+    networks:
+      - network_monitoring
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+    driver: local
+  nodered_data:
+    driver: local
+
+networks:
+  network_monitoring:
+    driver: bridge
