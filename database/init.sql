@@ -58,8 +58,7 @@ CREATE TABLE IF NOT EXISTS connected_hosts (
     vlan_id INTEGER DEFAULT 1,
     vendor VARCHAR(100),                      -- Опционально: производитель по OUI
     last_seen TIMESTAMP DEFAULT NOW(),        -- Когда последний раз видели в ARP/MAC
-    
-    UNIQUE(mac_address, port_id)              -- Один MAC на одном порту
+    UNIQUE(mac_address, vlan_id, port_id) -- Один MAC на одном порту в конкретном VLAN
 );
 
 CREATE INDEX IF NOT EXISTS idx_hosts_port ON connected_hosts(port_id);

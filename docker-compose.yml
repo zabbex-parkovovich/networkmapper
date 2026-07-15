@@ -39,6 +39,7 @@ services:
       - "1880:1880"
     volumes:
       - nodered_data:/data
+      - ./our_data:/data/our_data 
     environment:
       - TZ=${TZ}
     networks:
