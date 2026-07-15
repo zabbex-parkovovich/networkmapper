@@ -1,0 +1,86 @@
+[H3C LECHEBNAYA]dis mac-address 
+MAC Address      VLAN ID    State            Port/Nickname            Aging
+0013-db65-d131   1          Learned          GE1/0/1                  Y
+0020-85c7-8686   1          Learned          GE1/0/8                  Y
+0020-85d9-e8c7   1          Learned          GE1/0/7                  Y
+0023-24d9-021f   1          Learned          GE1/0/10                 Y
+0025-0b03-4943   1          Learned          GE1/0/39                 Y
+0025-0b03-495a   1          Learned          GE1/0/39                 Y
+009c-0205-5447   1          Learned          GE1/0/3                  Y
+00e0-4c73-5587   1          Learned          GE1/0/1                  Y
+00e0-4c73-55a4   1          Learned          GE1/0/2                  Y
+00e0-4c73-6044   1          Learned          GE1/0/3                  Y
+00e0-4c73-cabc   1          Learned          GE1/0/1                  Y
+0200-e96d-8204   1          Learned          GE1/0/11                 Y
+1413-33f3-6edf   1          Learned          GE1/0/1                  Y
+3824-f110-d35f   1          Learned          GE1/0/39                 Y
+4ccc-6a11-bd7b   1          Learned          GE1/0/3                  Y
+4ccc-6a11-be00   1          Learned          GE1/0/3                  Y
+507b-9db3-02b1   1          Learned          GE1/0/3                  Y
+507b-9db3-0a2a   1          Learned          GE1/0/3                  Y
+6c4b-9056-4753   1          Learned          GE1/0/3                  Y
+82d2-4056-e852   1          Learned          GE1/0/1                  Y
+8447-0929-05d8   1          Learned          GE1/0/3                  Y
+8c55-7019-25d4   1          Learned          GE1/0/10                 Y
+8c55-7019-b3b0   1          Learned          GE1/0/3                  Y
+8c89-a5f9-b21e   1          Learned          GE1/0/3                  Y
+90e2-fc02-ea06   1          Learned          GE1/0/39                 Y
+94de-800b-0fd3   1          Learned          GE1/0/3                  Y
+98ee-cb9b-d384   1          Learned          GE1/0/3                  Y
+9c6b-0088-00ba   1          Learned          GE1/0/39                 Y
+9c93-4e2f-926a   1          Learned          GE1/0/3                  Y
+e2ae-388d-1de1   1          Learned          GE1/0/1                  Y
+e438-1911-8699   1          Learned          GE1/0/1                  Y
+f000-0516-3580   1          Learned          GE1/0/39                 Y
+f000-0516-4bed   1          Learned          GE1/0/39                 Y
+f000-060f-3ef8   1          Learned          GE1/0/39                 Y
+fa82-0ec6-be55   1          Learned          GE1/0/1                  Y
+
+[H3C LECHEBNAYA]dis lldp neighbor-information list
+Chassis ID : * -- -- Nearest nontpmr bridge neighbor
+             # -- -- Nearest customer bridge neighbor
+             Default -- -- Nearest bridge neighbor
+Local Interface Chassis ID      Port ID                    System Name          
+GE1/0/2         00e0-4c73-55a4  00e0-4c73-55a4             -
+GE1/0/3         00e0-4c73-6044  00e0-4c73-6044             -
+GE1/0/3         8c89-a5f9-b21e  8c89-a5f9-b21e             -
+GE1/0/3         98ee-cb9b-d384  98ee-cb9b-d384             -
+GE1/0/3         94de-800b-0fd3  94de-800b-0fd3             -
+GE1/0/3         4ccc-6a11-be00  4ccc-6a11-be00             -
+GE1/0/3         8447-0929-05d8  8447-0929-05d8             -
+GE1/0/3         507b-9db3-0a2a  507b-9db3-0a2a             -
+GE1/0/3         4ccc-6a11-bd7b  4ccc-6a11-bd7b             -
+GE1/0/3         507b-9db3-02b1  507b-9db3-02b1             -
+GE1/0/3         6c4b-9056-4753  6c4b-9056-4753             -
+GE1/0/10        0023-24d9-021f  0023-24d9-021f             -
+
+[H3C LECHEBNAYA]dis arp
+   Type: S-Static    D-Dynamic    O-Openflow   R-Rule   I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+192.168.100.1   e438-1911-8699 1             GE1/0/1                  1196  D   
+192.168.100.19  00e0-4c73-5587 1             GE1/0/1                  1135  D   
+192.168.100.29  fa82-0ec6-be55 1             GE1/0/1                  697   D   
+192.168.100.37  00e0-4c73-cabc 1             GE1/0/1                  1200  D   
+192.168.100.50  82d2-4056-e852 1             GE1/0/1                  143   D   
+192.168.100.54  1413-33f3-6edf 1             GE1/0/1                  604   D   
+192.168.100.17  3824-f110-d35f 1             GE1/0/39                 1200  D   
+192.168.100.24  0025-0b03-4943 1             GE1/0/39                 905   D   
+192.168.100.41  0025-0b03-495a 1             GE1/0/39                 908   D   
+192.168.100.14  507b-9db3-02b1 1             GE1/0/3                  1178  D   
+192.168.100.25  4ccc-6a11-be00 1             GE1/0/3                  1195  D   
+192.168.100.38  8c55-7019-b3b0 1             GE1/0/3                  1200  D   
+192.168.100.42  98ee-cb9b-d384 1             GE1/0/3                  1194  D   
+192.168.100.44  6c4b-9056-4753 1             GE1/0/3                  1188  D   
+192.168.100.45  8447-0929-05d8 1             GE1/0/3                  1178  D   
+192.168.100.47  4ccc-6a11-bd7b 1             GE1/0/3                  1177  D   
+192.168.100.53  94de-800b-0fd3 1             GE1/0/3                  1197  D   
+192.168.100.60  009c-0205-5447 1             GE1/0/3                  79    D   
+192.168.100.62  9c93-4e2f-926a 1             GE1/0/3                  1109  D   
+192.168.100.71  507b-9db3-0a2a 1             GE1/0/3                  1196  D   
+192.168.100.79  8c89-a5f9-b21e 1             GE1/0/3                  1129  D   
+192.168.100.101 00e0-4c73-6044 1             GE1/0/3                  1194  D   
+192.168.100.22  0020-85c7-8686 1             GE1/0/8                  1048  D   
+192.168.100.59  0023-24d9-021f 1             GE1/0/10                 1195  D   
+192.168.100.23  0020-85d9-e8c7 1             GE1/0/7                  980   D   
+192.168.100.52  0200-e96d-8204 1             GE1/0/11                 1200  D   
+192.168.100.8   00e0-4c73-55a4 1             GE1/0/2                  1193  D 
