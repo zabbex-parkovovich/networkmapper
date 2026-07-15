@@ -1,0 +1,75 @@
+[H3C#1]dis arp
+  Type: S-Static   D-Dynamic   O-Openflow   R-Rule   M-Multiport  I-Invalid
+IP address      MAC address    VLAN/VSI name Interface                Aging Type
+172.22.40.4     b8d4-f739-c466 30            XGE1/0/51                138   D   
+169.254.196.90  b8d4-f739-c465 1             XGE1/0/51                138   D   
+172.22.40.5     b8d4-f739-bfe6 30            XGE1/0/50                147   D   
+169.254.191.218 b8d4-f739-bfe5 1             XGE1/0/50                147   D   
+172.22.40.1     04d5-904a-475b 30            GE1/0/47                 1170  D   
+169.254.185.122 b8d4-f739-b985 1             XGE1/0/49                148   D   
+
+
+
+
+[H3C#1]dis lldp neighbor-information list 
+Chassis ID : * -- -- Nearest nontpmr bridge neighbor
+             # -- -- Nearest customer bridge neighbor
+             Default -- -- Nearest bridge neighbor
+Local Interface Chassis ID      Port ID                    System Name          
+GE1/0/2         90fb-a681-7c0a  90fb-a681-7c0a             -
+GE1/0/4         6c4b-9056-4752  6c4b-9056-4752             -
+GE1/0/16        a4ae-1278-0ce9  a4ae-1278-0ce9             -
+GE1/0/18        1c66-6d8b-9b50  1c66-6d8b-9b50             -
+GE1/0/24        0019-99b2-d43e  0019-99b2-d43e             -
+GE1/0/26        94c6-9191-9d27  94c6-9191-9d27             -
+GE1/0/46        6c4b-903e-05fb  6c4b-903e-05fb             -
+XGE1/0/49       b8d4-f739-b97a  Ten-GigabitEthernet1/0/52  H3C#2
+XGE1/0/50       b8d4-f739-bfda  Ten-GigabitEthernet1/0/52  H3C#3
+XGE1/0/51       b8d4-f739-c45a  Ten-GigabitEthernet1/0/52  H3C#4
+
+
+
+
+
+[H3C#1]dis mac-address 
+MAC Address      VLAN ID    State            Port/Nickname            Aging
+b8d4-f739-b985   1          Learned          XGE1/0/49                Y
+b8d4-f739-b9bb   1          Learned          XGE1/0/49                Y
+b8d4-f739-bfe5   1          Learned          XGE1/0/50                Y
+b8d4-f739-c465   1          Learned          XGE1/0/51                Y
+0019-99b2-d43e   10         Learned          GE1/0/24                 Y
+001d-c311-4243   10         Learned          XGE1/0/49                Y
+001d-c312-b548   10         Learned          XGE1/0/50                Y
+0020-85c7-869b   10         Learned          XGE1/0/51                Y
+0023-24d9-0807   10         Learned          XGE1/0/50                Y
+0050-aa4f-4052   10         Learned          XGE1/0/51                Y
+00e0-4c09-7452   10         Learned          XGE1/0/49                Y
+00e0-4c09-c3e0   10         Learned          XGE1/0/50                Y
+04d5-904a-475b   10         Learned          GE1/0/47                 Y
+1c66-6d8b-9b50   10         Learned          GE1/0/18                 Y
+5003-cfbc-6db6   10         Learned          XGE1/0/51                Y
+6c4b-903e-05fb   10         Learned          GE1/0/46                 Y
+6c4b-903e-0616   10         Learned          XGE1/0/50                Y
+6c4b-9056-4752   10         Learned          GE1/0/4                  Y
+90fb-a681-6d19   10         Learned          XGE1/0/49                Y
+90fb-a681-7c0a   10         Learned          GE1/0/2                  Y
+94c6-9191-4cb3   10         Learned          XGE1/0/50                Y
+94c6-9191-9d27   10         Learned          GE1/0/26                 Y
+94c6-9191-9e38   10         Learned          XGE1/0/50                Y
+a4ae-1278-0ce9   10         Learned          GE1/0/16                 Y
+a4ae-1278-0d34   10         Learned          XGE1/0/49                Y
+c09b-f460-1b8a   10         Learned          XGE1/0/49                Y
+d85e-d351-735e   10         Learned          XGE1/0/50                Y
+d85e-d391-f183   10         Learned          XGE1/0/50                Y
+f0d7-af93-9125   10         Learned          XGE1/0/50                Y
+f0d7-af93-916e   10         Learned          XGE1/0/50                Y
+0025-0b03-3f48   20         Learned          XGE1/0/49                Y
+04d5-904a-475b   20         Learned          GE1/0/47                 Y
+30dd-aa43-9b79   20         Learned          XGE1/0/49                Y
+30dd-aa44-7600   20         Learned          XGE1/0/49                Y
+30dd-aa44-7607   20         Learned          XGE1/0/49                Y
+30dd-aa44-760c   20         Learned          XGE1/0/49                Y
+30dd-aa44-7612   20         Learned          XGE1/0/49                Y
+30dd-aa44-7618   20         Learned          XGE1/0/49                Y
+30dd-aa44-761c   20         Learned          XGE1/0/49                Y
+30dd-aa44-7627   20         Learned          XGE1/0/49                Y
