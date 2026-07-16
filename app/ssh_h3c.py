@@ -1,28 +1,21 @@
 import paramiko
 import sys
-import logging
-
-# Можно включить логирование для отладки
-logging.basicConfig(level=logging.INFO)
 
 def ssh_exec(host, port, username, password, command, timeout=30):
-    client = paramiko.SSHClient()
-    # Разрешаем автоматически добавлять ключ хоста (но это не решает проблему алгоритма)
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    transport = paramiko.Transport((host, port))
     try:
-        # ВАЖНО: явно указываем, какие алгоритмы ключей хоста мы принимаем
-        client.connect(
-            host, port, username, password, timeout=timeout,
-            hostkey_algorithms=['ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256']
-        )
-        stdin, stdout, stderr = client.exec_command(command, timeout=timeout)
-        out = stdout.read().decode('utf-8', errors='ignore')
-        err = stderr.read().decode('utf-8', errors='ignore')
+        # Задаём разрешённые алгоритмы ключей хоста
+        transport._preferred_keys = ['ssh-rsa', 'ssh-dss']
+        transport.connect(username=username, password=password, timeout=timeout)
+        channel = transport.open_session()
+        channel.exec_command(command, timeout=timeout)
+        out = channel.recv(65535).decode('utf-8', errors='ignore')
+        err = channel.recv_stderr(65535).decode('utf-8', errors='ignore')
         return out, err, 0
     except Exception as e:
         return '', str(e), 1
     finally:
-        client.close()
+        transport.close()
 
 if __name__ == '__main__':
     if len(sys.argv) < 6:
