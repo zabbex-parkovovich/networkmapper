@@ -2,26 +2,22 @@ import paramiko
 import sys
 
 def ssh_exec(host, port, username, password, command, timeout=30):
-    client = paramiko.SSHClient()
-    # Автоматически добавлять ключ хоста (для тестов)
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    transport = paramiko.Transport((host, port))
+    transport.sock.settimeout(timeout)
     try:
-        # Явно разрешаем старые алгоритмы ключей хоста
-        client.connect(
-            host, port,
-            username=username,
-            password=password,
-            timeout=timeout,
-            hostkey_algorithms=['ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256']
-        )
-        stdin, stdout, stderr = client.exec_command(command, timeout=timeout)
-        out = stdout.read().decode('utf-8', errors='ignore')
-        err = stderr.read().decode('utf-8', errors='ignore')
+        # Разрешаем старые алгоритмы ключей хоста
+        transport._preferred_keys = ['ssh-rsa', 'ssh-dss']
+        # Подключаемся с паролем
+        transport.connect(username=username, password=password)
+        channel = transport.open_session()
+        channel.exec_command(command)
+        out = channel.recv(65535).decode('utf-8', errors='ignore')
+        err = channel.recv_stderr(65535).decode('utf-8', errors='ignore')
         return out, err, 0
     except Exception as e:
         return '', str(e), 1
     finally:
-        client.close()
+        transport.close()
 
 if __name__ == '__main__':
     if len(sys.argv) < 6:
