@@ -1,4 +1,3 @@
-git pull
+#!/bin/bash
 docker compose down -v
-docker compose build app
 docker compose up -d

@@ -1,0 +1,2 @@
+#!/bin/bash
+python ssh_h3c_multi.py 192.168.100.2 22 admin 'AdminOTI2026!!' "$@"
