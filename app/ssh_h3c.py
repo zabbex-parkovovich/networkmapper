@@ -2,30 +2,30 @@ import paramiko
 import sys
 
 def ssh_exec(host, port, username, password, command, timeout=30):
-    transport = paramiko.Transport((host, port))
-    transport.sock.settimeout(timeout)
+    client = paramiko.SSHClient()
+    # Принимаем любой ключ хоста (без проверки)
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
-        # Регистрируем только ssh-rsa (DSSKey удалён в paramiko 5)
-        transport._key_info = {
-            'ssh-rsa': paramiko.RSAKey,
-            'ecdsa-sha2-nistp256': paramiko.ECDSAKey,
-            'ecdsa-sha2-nistp384': paramiko.ECDSAKey,
-            'ecdsa-sha2-nistp521': paramiko.ECDSAKey,
-            'ssh-ed25519': paramiko.Ed25519Key,
-        }
-        # Указываем предпочтение ssh-rsa
-        transport._preferred_keys = ['ssh-rsa']
-        # Подключаемся
-        transport.connect(username=username, password=password)
-        channel = transport.open_session()
-        channel.exec_command(command)
-        out = channel.recv(65535).decode('utf-8', errors='ignore')
-        err = channel.recv_stderr(65535).decode('utf-8', errors='ignore')
+        client.connect(
+            host, port,
+            username=username,
+            password=password,
+            timeout=timeout,
+            # Разрешаем все алгоритмы (включая устаревшие)
+            disabled_algorithms={},
+            # Явно разрешаем ssh-rsa для ключа хоста
+            hostkey_algorithms=['ssh-rsa'],
+            # Отключаем новые алгоритмы подписи, чтобы сервер использовал SHA1
+            disabled_algorithms={'pubkey': ['rsa-sha2-256', 'rsa-sha2-512']}
+        )
+        stdin, stdout, stderr = client.exec_command(command, timeout=timeout)
+        out = stdout.read().decode('utf-8', errors='ignore')
+        err = stderr.read().decode('utf-8', errors='ignore')
         return out, err, 0
     except Exception as e:
         return '', str(e), 1
     finally:
-        transport.close()
+        client.close()
 
 if __name__ == '__main__':
     if len(sys.argv) < 6:
