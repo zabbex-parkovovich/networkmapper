@@ -3,12 +3,16 @@ import sys
 
 def ssh_exec(host, port, username, password, command, timeout=30):
     transport = paramiko.Transport((host, port))
+    # Устанавливаем таймаут для сокета (если нужно)
+    transport.sock.settimeout(timeout)
     try:
-        # Задаём разрешённые алгоритмы ключей хоста
+        # Разрешаем старые алгоритмы ключей хоста
         transport._preferred_keys = ['ssh-rsa', 'ssh-dss']
-        transport.connect(username=username, password=password, timeout=timeout)
+        # Подключаемся без timeout (он уже задан через sock)
+        transport.connect(username=username, password=password)
         channel = transport.open_session()
-        channel.exec_command(command, timeout=timeout)
+        channel.exec_command(command)
+        # Читаем вывод с таймаутом
         out = channel.recv(65535).decode('utf-8', errors='ignore')
         err = channel.recv_stderr(65535).decode('utf-8', errors='ignore')
         return out, err, 0
