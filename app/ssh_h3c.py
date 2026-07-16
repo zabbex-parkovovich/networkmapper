@@ -1,26 +1,45 @@
 import paramiko
 import sys
+import time
 
 def ssh_exec(host, port, username, password, command, timeout=30):
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    transport = paramiko.Transport((host, port))
+    transport.sock.settimeout(timeout)
+
+    def _verify_key(*args, **kwargs):
+        pass
+    transport._verify_key = _verify_key
+
     try:
-        client.connect(
-            host, port,
-            username=username,
-            password=password,
-            timeout=timeout,
-            hostkey_algorithms=['ssh-rsa'],
-            disabled_algorithms={'pubkey': ['rsa-sha2-256', 'rsa-sha2-512']}
-        )
-        stdin, stdout, stderr = client.exec_command(command, timeout=timeout)
-        out = stdout.read().decode('utf-8', errors='ignore')
-        err = stderr.read().decode('utf-8', errors='ignore')
-        return out, err, 0
+        transport._key_info = {'ssh-rsa': paramiko.RSAKey}
+        transport._preferred_keys = ['ssh-rsa']
+        transport.connect(username=username, password=password)
+        channel = transport.open_session()
+        channel.exec_command(command)
+
+        out_data = b''
+        err_data = b''
+        # Читаем, пока канал открыт
+        while True:
+            if channel.recv_ready():
+                out_data += channel.recv(65535)
+            if channel.recv_stderr_ready():
+                err_data += channel.recv_stderr(65535)
+            if channel.exit_status_ready():
+                break
+            time.sleep(0.1)
+
+        # Добираем остатки
+        out_data += channel.recv(65535)
+        err_data += channel.recv_stderr(65535)
+
+        out = out_data.decode('utf-8', errors='ignore')
+        err = err_data.decode('utf-8', errors='ignore')
+        return out, err, channel.recv_exit_status()
     except Exception as e:
         return '', str(e), 1
     finally:
-        client.close()
+        transport.close()
 
 if __name__ == '__main__':
     if len(sys.argv) < 6:
