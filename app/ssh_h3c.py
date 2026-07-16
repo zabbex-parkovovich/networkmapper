@@ -5,17 +5,16 @@ def ssh_exec(host, port, username, password, command, timeout=30):
     transport = paramiko.Transport((host, port))
     transport.sock.settimeout(timeout)
     try:
-        # Регистрируем поддержку устаревших алгоритмов ключей хоста
+        # Регистрируем только ssh-rsa (DSSKey удалён в paramiko 5)
         transport._key_info = {
             'ssh-rsa': paramiko.RSAKey,
-            'ssh-dss': paramiko.DSSKey,
             'ecdsa-sha2-nistp256': paramiko.ECDSAKey,
             'ecdsa-sha2-nistp384': paramiko.ECDSAKey,
             'ecdsa-sha2-nistp521': paramiko.ECDSAKey,
             'ssh-ed25519': paramiko.Ed25519Key,
         }
-        # Указываем предпочитаемые алгоритмы (порядок важен)
-        transport._preferred_keys = ['ssh-rsa', 'ssh-dss']
+        # Указываем предпочтение ssh-rsa
+        transport._preferred_keys = ['ssh-rsa']
         # Подключаемся
         transport.connect(username=username, password=password)
         channel = transport.open_session()
