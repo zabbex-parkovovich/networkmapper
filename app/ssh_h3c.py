@@ -3,7 +3,6 @@ import sys
 
 def ssh_exec(host, port, username, password, command, timeout=30):
     client = paramiko.SSHClient()
-    # Принимаем любой ключ хоста (без проверки)
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         client.connect(
@@ -11,11 +10,7 @@ def ssh_exec(host, port, username, password, command, timeout=30):
             username=username,
             password=password,
             timeout=timeout,
-            # Разрешаем все алгоритмы (включая устаревшие)
-            disabled_algorithms={},
-            # Явно разрешаем ssh-rsa для ключа хоста
             hostkey_algorithms=['ssh-rsa'],
-            # Отключаем новые алгоритмы подписи, чтобы сервер использовал SHA1
             disabled_algorithms={'pubkey': ['rsa-sha2-256', 'rsa-sha2-512']}
         )
         stdin, stdout, stderr = client.exec_command(command, timeout=timeout)
